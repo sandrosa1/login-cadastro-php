@@ -1,0 +1,24 @@
+{
+    "name": "login/sandro",
+    "description": "Cadastro e login PHP",
+    "autoload": {
+        "psr-4": {
+            "Login\\Sandro\\": "src/",
+            "Classes\\":"../classes/",
+            "Models\\":"../models/",
+            "Traits\\":"../traits/" 
+        }
+    
+    },
+    "authors": [
+        {
+            "name": "sandrosa1",
+            "email": "sandro.sa@fatec.sp.gov.br"
+        }
+        
+    ],
+    "require": {
+        "bjeavons/zxcvbn-php": "^1.0"
+    }
+    
+}
