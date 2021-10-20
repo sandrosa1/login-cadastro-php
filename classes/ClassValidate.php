@@ -13,12 +13,14 @@ class ClassValidate{
     private $password;
     private $login;
     private $tentativas;
+    private $session;
 
     public function __construct()
     {
         $this->cadastro = new ClassCadastro();
         $this->password = new ClassPassword();
         $this->login= new ClassLogin();
+        $this->session= new ClassSessions();
     }
 
    
@@ -227,24 +229,7 @@ class ClassValidate{
         }
     }
 
-        #Validação final do cadastro
-    public function validateFinalCad($arrVar)
-    {
-        if(count($this->getErro())>0){
-            $arrResponse=[
-                "retorno" => "erro",
-                "erros"   => $this->getErro()
-            ];
-        }else{
-            $arrResponse=[
-                "retorno" => "success",
-                "erros"   => null
-            ];
-            /*$this->cadastro->insertCad($arrVar);*/
-        }
-        return json_encode($arrResponse);
-    }
-
+  
     #Validação das tentativas
     public function validateAttemptLogin()
     {
@@ -265,8 +250,43 @@ class ClassValidate{
             $this->login->insertAttempt();
         }else{
             $this->login->deleteAttempt();
+            $this->session->setSessions($email);
         }
     }
+        #Método de validação de confirmação de email
+    public function validateUserActive($email)
+    {
+        $user=$this->login->getDataUser($email);
+        if($user["data"]["status"] == "confirmation"){
+            if(strtotime($user["data"]["dataCriacao"])<= strtotime(date("Y-m-d H:i:s"))-432000){
+                $this->setErro("Ative seu cadastro pelo link do email");
+                return false;
+            }else{
+                return true;
+            }
+        }else{
+            return true;
+        }
+    }
+
+    #Validação final do cadastro
+    public function validateFinalCad($arrVar)
+    {
+        if(count($this->getErro())>0){
+            $arrResponse=[
+                "retorno" => "erro",
+                "erros"   => $this->getErro()
+            ];
+        }else{
+            $arrResponse=[
+                "retorno" => "success",
+                "erros"   => null
+            ];
+            /*$this->cadastro->insertCad($arrVar);*/
+        }
+        return json_encode($arrResponse);
+    }
+      
     
   
 }

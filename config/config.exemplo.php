@@ -19,3 +19,4 @@ define('PASS',"");
 #Outras Informações
 define("SITEKEY","minhachave");
 define("SECRETKEY","minhachave");
+define("DOMAIN",$_SERVER["HTTP_HOST"]);

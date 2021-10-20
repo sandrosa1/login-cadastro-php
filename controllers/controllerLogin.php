@@ -6,6 +6,7 @@ $validate->validateIssetEmail($email,"login");
 $validate->validateStrongSenha($senha);
 $validate->validateSenha($email,$senha);
 $validate->validateCaptcha($gRecaptchaResponse);
+$validate->validateUserActive($email);
 $validate->validateAttemptLogin();
 $validate->validateFinalLogin($email);
 var_dump($validate->getErro());
